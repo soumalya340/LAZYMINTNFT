@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signing  message</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+<body>
+    <div>
+    <p>Wallet Adddress =<span id="wallet-address"></span></p>
+        <button onclick="signMessage()">Sign Message</button> 
+    </div>
+    <script type="text/javascript">
+    // Connect metamask to our site site.get the user's address;
+   // let Web3 =  require("web3");
+    var account = null;
+    var signature = null;
+    var message = "Signing message in wallet";
+    (async () =>{
+        if(window.ethereum){
+            await window.ethereum.send('eth_requestAccounts');
+            window.web3 = new Web3(window.ethereum);
+
+            var accounts = await web3.eth.getAccounts(); 
+            account = accounts[0];
+            console.log("wallet-address =" + account);
+            document.getElementById("wallet-address").textContent = account;
+
+        }
+        
+    })();
+    async function signMessage(){
+        signature = await web3.eth.personal.sign(message,account);
+        console.log("Signature = " + signature);
+    }
+
+    </script>
+</body>
+</html>
